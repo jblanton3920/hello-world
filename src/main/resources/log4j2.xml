@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration>
+
+    <Properties>
+        <Property name="artifact">@project.artifactId@</Property>
+        <Property name="group">@project.groupId@</Property>
+        <Property name="log-path">${sys:log.path:-./}</Property>
+        <Property name="profile">${sys:spring.profiles.active:-undefined}</Property>
+        <Property name="version">@project.version@</Property>
+    </Properties>
+
     <Appenders>
         <!-- Referenced from https://www.baeldung.com/spring-boot-logging for Console Appender layout -->
         <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout
-                    pattern="%style{%d{ISO8601}}{black} %highlight{%-5level }[%style{%t}{bright,blue}] %style{%C{1.}}{bright,yellow}: %msg%n%throwable" />
+            <PatternLayout pattern="%style{%d{ISO8601}}{black} %highlight{%-5level} %style{${version}}{bright,magenta} [%style{%t}{bright,blue}] %style{%C{1.}}{bright,yellow}: %msg%n%throwable" />
         </Console>
 
         <RollingFile name="RollingFile"
-                     fileName="${sys:log.path}/hello-world.log"
-                     filePattern="${sys:log.path}/$${date:yyyy-MM}/hello-world-%d{-dd-MMMM-yyyy}-%i.log.gz">
+                     fileName="${log-path}}/hello-world.log"
+                     filePattern="${log-path}/$${date:yyyy-MM}/hello-world-%d{-dd-MMMM-yyyy}-%i.log.gz">
             <PatternLayout>
                 <pattern>%d %p %C{1.} [%t] %m%n</pattern>
             </PatternLayout>
